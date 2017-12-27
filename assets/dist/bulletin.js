@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-System.register("teamelf/bulletin/Bulletin", [], function (_export, _context) {
+System.register('teamelf/bulletin/Bulletin', ['teamelf/layout/Page'], function (_export, _context) {
   "use strict";
 
-  var _createClass, _class;
+  var Page, _createClass, _class;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -36,7 +36,9 @@ System.register("teamelf/bulletin/Bulletin", [], function (_export, _context) {
   }
 
   return {
-    setters: [],
+    setters: [function (_teamelfLayoutPage) {
+      Page = _teamelfLayoutPage.default;
+    }],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -56,8 +58,8 @@ System.register("teamelf/bulletin/Bulletin", [], function (_export, _context) {
         };
       }();
 
-      _class = function (_React$Component) {
-        _inherits(_class, _React$Component);
+      _class = function (_Page) {
+        _inherits(_class, _Page);
 
         function _class() {
           _classCallCheck(this, _class);
@@ -66,39 +68,52 @@ System.register("teamelf/bulletin/Bulletin", [], function (_export, _context) {
         }
 
         _createClass(_class, [{
-          key: "render",
-          value: function render() {
+          key: 'view',
+          value: function view() {
             return React.createElement(
-              "div",
+              'div',
               null,
-              "Bulletin"
+              'Bulletin'
             );
           }
         }]);
 
         return _class;
-      }(React.Component);
+      }(Page);
 
-      _export("default", _class);
+      _export('default', _class);
     }
   };
 });
 'use strict';
 
-System.register('teamelf/bulletin/main', ['teamelf/bulletin/Bulletin'], function (_export, _context) {
+System.register('teamelf/bulletin/main', ['teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
   "use strict";
 
-  var Bulletin, target;
+  var Bulletin, App, SideNav, Permission;
   return {
     setters: [function (_teamelfBulletinBulletin) {
       Bulletin = _teamelfBulletinBulletin.default;
+    }, function (_teamelfApp) {
+      App = _teamelfApp.default;
+    }, function (_teamelfLayoutSideNav) {
+      SideNav = _teamelfLayoutSideNav.SideNav;
+    }, function (_teamelfPermission) {
+      Permission = _teamelfPermission.default;
     }],
     execute: function () {
-      target = document.getElementById('react-render-target-bulletin');
+      /**
+       * This file is part of TeamELF
+       *
+       * (c) GuessEver <guessever@gmail.com>
+       *
+       * For the full copyright and license information, please view the LICENSE
+       * file that was distributed with this source code.
+       */
 
-      if (target) {
-        ReactDOM.render(React.createElement(Bulletin, null), target);
-      }
+      App.prototype.routes = [{ path: '/bulletin', exact: true, component: Bulletin }];
+      SideNav.prototype.navigations = [{ path: '/bulletin', icon: 'notification', title: '公告管理' }];
+      Permission.prototype.permissions = [{ name: '查看所有通知', permission: 'bulletin.list' }, { name: '发送通知', permission: 'bulletin.create' }];
     }
   };
 });

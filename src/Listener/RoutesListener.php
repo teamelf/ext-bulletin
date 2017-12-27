@@ -15,7 +15,6 @@ use TeamELF\Event\RoutesWillBeLoaded;
 use TeamELF\Ext\Bulletin\Api\BulletinCreateController;
 use TeamELF\Ext\Bulletin\Api\BulletinItemController;
 use TeamELF\Ext\Bulletin\Api\BulletinListController;
-use TeamELF\Ext\Bulletin\View\BulletinViewController;
 
 class RoutesListener
 {
@@ -26,19 +25,9 @@ class RoutesListener
 
     public function handler(RoutesWillBeLoaded $event)
     {
-        $event->getRouter()
-            // --------------------
-            // | Api
-            // --------------------
-            ->prefix('/api')
+        $event->getRouter()->prefix('/api')
             ->get('bulletin-list', '/bulletin', BulletinListController::class)
             ->post('bulletin-create', '/bulletin', BulletinCreateController::class)
-            ->get('bulletin-item', '/bulletin/{id}', BulletinItemController::class)
-
-            // --------------------
-            // | View
-            // --------------------
-            ->prefix('')
-            ->get('bulletin', '/bulletin', BulletinViewController::class);
+            ->get('bulletin-item', '/bulletin/{id}', BulletinItemController::class);
     }
 }

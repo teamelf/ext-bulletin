@@ -10,3 +10,4 @@
  */
 
 (new \TeamELF\Ext\Bulletin\Listener\RoutesListener())->subscribe();
+(new \TeamELF\Ext\Bulletin\Listener\AssetsListener())->subscribe();

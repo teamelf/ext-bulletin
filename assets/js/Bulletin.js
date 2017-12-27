@@ -7,8 +7,10 @@
  * file that was distributed with this source code.
  */
 
-export default class extends React.Component {
-  render () {
+import Page from 'teamelf/layout/Page';
+
+export default class extends Page {
+  view () {
     return <div>Bulletin</div>;
   }
 }
