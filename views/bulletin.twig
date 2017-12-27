@@ -1,0 +1,8 @@
+{% extends "layout/base.twig" %}
+
+{% block body %}
+  {{ parent() }}
+  <div id="react-render-target-bulletin">
+    {% include "layout/loading.twig" %}
+  </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{
+  "name": "teamelf/ext-bulletin",
+  "description": "extension for bulletins",
+  "type": "teamelf-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Zhihao Jiang",
+      "email": "guessever@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "TeamELF\\Ext\\Bulletin\\": "src/"
+    }
+  },
+  "require": {
+    "teamelf/core": "^0.3.0"
+  },
+  "require-dev": {
+    "franzl/studio": "^0.13.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1.x-dev"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
