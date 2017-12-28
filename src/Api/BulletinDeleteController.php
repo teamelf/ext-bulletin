@@ -12,16 +12,19 @@
 namespace TeamELF\Ext\Bulletin\Api;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use TeamELF\Exception\HttpForbiddenException;
 use TeamELF\Exception\HttpNotFoundException;
 use TeamELF\Ext\Bulletin\Bulletin;
 use TeamELF\Http\AbstractController;
 
-class BulletinItemController extends AbstractController
+class BulletinDeleteController extends AbstractController
 {
     /**
      * handle the request
      *
      * @return Response
+     * @throws HttpForbiddenException
      * @throws HttpNotFoundException
      */
     public function handler(): Response
@@ -30,13 +33,11 @@ class BulletinItemController extends AbstractController
         if (!$bulletin) {
             throw new HttpNotFoundException();
         }
-        return response([
-            'id' => $bulletin->getId(),
-            'createdAt' => $bulletin->getCreatedAt()->getTimestamp(),
-            'updatedAt' => $bulletin->getUpdatedAt()->getTimestamp(),
-            'title' => $bulletin->getTitle(),
-            'content' => $bulletin->getContent(),
-            'step' => $bulletin->getStep()
-        ]);
+        if ($bulletin->getStep() === 0) {
+            $bulletin->delete(true);
+        } else {
+            throw new HttpForbiddenException();
+        }
+        return response();
     }
 }

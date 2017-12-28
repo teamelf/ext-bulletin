@@ -12,11 +12,12 @@
 namespace TeamELF\Ext\Bulletin\Api;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use TeamELF\Exception\HttpNotFoundException;
 use TeamELF\Ext\Bulletin\Bulletin;
 use TeamELF\Http\AbstractController;
 
-class BulletinItemController extends AbstractController
+class BulletinUpdateController extends AbstractController
 {
     /**
      * handle the request
@@ -30,13 +31,15 @@ class BulletinItemController extends AbstractController
         if (!$bulletin) {
             throw new HttpNotFoundException();
         }
-        return response([
-            'id' => $bulletin->getId(),
-            'createdAt' => $bulletin->getCreatedAt()->getTimestamp(),
-            'updatedAt' => $bulletin->getUpdatedAt()->getTimestamp(),
-            'title' => $bulletin->getTitle(),
-            'content' => $bulletin->getContent(),
-            'step' => $bulletin->getStep()
+        $data = $this->validate([
+            'title' => [
+                new NotBlank()
+            ],
+            'content' => [
+                new NotBlank()
+            ]
         ]);
+        $bulletin->update($data);
+        return response();
     }
 }

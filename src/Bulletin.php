@@ -36,6 +36,13 @@ class Bulletin extends AbstractModel
      */
     protected $content;
 
+    /**
+     * @var int
+     *
+     * @Column(type="integer", options={"default":0})
+     */
+    protected $step;
+
     // ----------------------------------------
     // | GETTERS & SETTERS
 
@@ -83,6 +90,40 @@ class Bulletin extends AbstractModel
         return $this;
     }
 
+    /**
+     * getter of $step
+     *
+     * @return int
+     */
+    public function getStep()
+    {
+        return $this->step;
+    }
+
+    /**
+     * setter of $step
+     *
+     * @param $step
+     * @return $this
+     */
+    public function step($step)
+    {
+        $this->step = $step;
+        return $this;
+    }
+
     // ----------------------------------------
     // | HELPER FUNCTIONS
+
+    /**
+     * publish the bulletin
+     *
+     * @return $this
+     */
+    public function publish()
+    {
+        $this->step(2)->save();
+        // TODO: ADD PUBLISH EVENT
+        return $this;
+    }
 }

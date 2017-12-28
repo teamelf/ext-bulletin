@@ -25,16 +25,9 @@ class BulletinCreateController extends AbstractController
      */
     public function handler(): Response
     {
-        $data = $this->validate([
-            'title' => [
-                new NotBlank()
-            ],
-            'content' => [
-                new NotBlank()
-            ]
-        ]);
-        $bulletin = new Bulletin($data);
-        $bulletin->save();
+        $bulletin = new Bulletin();
+        $bulletin->title(date('Ymd', time()) . '公告')
+            ->save();
         return response([
             'id' => $bulletin->getId()
         ]);
