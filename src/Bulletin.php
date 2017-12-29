@@ -245,7 +245,7 @@ class Bulletin extends AbstractModel
             ViewService::getEngine()->render('@ext-bulletin/bulletin.twig', [
                 'content' => \Parsedown::instance()->setUrlsLinked(false)->text($this->getContent())
             ]),
-            'system'
+            null
         ));
         $this->draft(false)->save();
         return $this;
