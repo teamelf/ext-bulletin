@@ -14,6 +14,8 @@ namespace TeamELF\Ext\Bulletin;
 use TeamELF\Core\Member;
 use TeamELF\Core\Role;
 use TeamELF\Database\AbstractModel;
+use TeamELF\Ext\Mailer\Event\MessageNeedsToBeSent;
+use TeamELF\View\ViewService;
 
 /**
  * @Entity
@@ -211,7 +213,6 @@ class Bulletin extends AbstractModel
      */
     public function publish()
     {
-        $this->draft(false)->save();
         $members = [];
         foreach ($this->getReceivers() as $receiver) {
             $type = substr($receiver, 0, 1);
@@ -230,13 +231,23 @@ class Bulletin extends AbstractModel
                 }
             }
         }
+        $emails = [];
         foreach ($members as $member) {
             (new BulletinFeedback([
                 'bulletin' => $this,
                 'receiver' => $member
             ]))->save();
-            // TODO: ADD PUBLISH EVENT
+            $emails[] = $member->getEmail();
         }
+        app()->dispatch(new MessageNeedsToBeSent(
+            $emails,
+            $this->getTitle(),
+            ViewService::getEngine()->render('@ext-bulletin/bulletin.twig', [
+                'content' => \Parsedown::instance()->setUrlsLinked(false)->text($this->getContent())
+            ]),
+            'system'
+        ));
+        $this->draft(false)->save();
         return $this;
     }
 }

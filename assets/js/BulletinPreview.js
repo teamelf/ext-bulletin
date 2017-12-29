@@ -15,7 +15,7 @@ export default class extends React.Component {
       <Card>
         <h2>{this.props.title}</h2>
         <Divider/>
-        <div>{this.props.content}</div>
+        <div dangerouslySetInnerHTML={{__html: marked(this.props.content)}}/>
       </Card>
     );
   }

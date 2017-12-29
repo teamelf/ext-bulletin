@@ -1,8 +1,8 @@
-{% extends "layout/base.twig" %}
+<div>
+  {{ content | raw }}
+</div>
 
-{% block body %}
-  {{ parent() }}
-  <div id="react-render-target-bulletin">
-    {% include "layout/loading.twig" %}
-  </div>
-{% endblock %}
+<div style="margin-top: 100px">
+  <button>confirm</button>
+  <button>refuse</button>
+</div>
