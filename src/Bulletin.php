@@ -11,6 +11,8 @@
 
 namespace TeamELF\Ext\Bulletin;
 
+use TeamELF\Core\Member;
+use TeamELF\Core\Role;
 use TeamELF\Database\AbstractModel;
 
 /**
@@ -41,7 +43,22 @@ class Bulletin extends AbstractModel
      *
      * @Column(type="boolean", options={"default":TRUE})
      */
-    protected $draft;
+    protected $draft = true;
+
+    /**
+     * @var string
+     *
+     * @Column(type="text", nullable=TRUE)
+     */
+    protected $receivers;
+
+    /**
+     * @var BulletinFeedback[]
+     *
+     * @OneToMany(targetEntity="BulletinFeedback", mappedBy="bulletin")
+     */
+    protected $feedbacks;
+
 
     // ----------------------------------------
     // | GETTERS & SETTERS
@@ -112,8 +129,56 @@ class Bulletin extends AbstractModel
         return $this;
     }
 
+    /**
+     * getter of receivers
+     *
+     * @return string[]
+     */
+    public function getReceivers()
+    {
+        return json_decode($this->receivers ?? '[]', true);
+    }
+
+    /**
+     * setter of $receivers
+     *
+     * @param string[] $receivers
+     * @return $this
+     */
+    public function receivers(array $receivers)
+    {
+        $this->receivers = json_encode($receivers);
+        return $this;
+    }
+
+    /**
+     * getter of $feedbacks
+     *
+     * @return BulletinFeedback[]
+     */
+    public function getFeedbacks()
+    {
+        return $this->feedbacks;
+    }
+
     // ----------------------------------------
     // | HELPER FUNCTIONS
+
+    /**
+     * get content's abstract
+     *
+     * @param int $length
+     * @return string
+     */
+    public function getAbstract($length = 100)
+    {
+        $content = $this->getContent();
+        if (mb_strlen($content) > $length - 3) {
+            return mb_substr($content, 0, $length - 3) . '...';
+        } else {
+            return $content;
+        }
+    }
 
     /**
      * publish the bulletin
@@ -123,7 +188,31 @@ class Bulletin extends AbstractModel
     public function publish()
     {
         $this->draft(false)->save();
-        // TODO: ADD PUBLISH EVENT
+        $members = [];
+        foreach ($this->getReceivers() as $receiver) {
+            $type = substr($receiver, 0, 1);
+            $identity = substr($receiver, 2);
+            if ($type === 'r') {
+                $role = Role::findBy(['slug' => $identity]);
+                if ($role) {
+                    foreach ($role->getMembers() as $member) {
+                        $members[] = $member;
+                    }
+                }
+            } else if ($type === 'm') {
+                $member = Member::findBy(['username' => $identity]);
+                if ($member) {
+                    $members[] = $member;
+                }
+            }
+        }
+        foreach ($members as $member) {
+            (new BulletinFeedback([
+                'bulletin' => $this,
+                'receiver' => $member
+            ]))->save();
+            // TODO: ADD PUBLISH EVENT
+        }
         return $this;
     }
 }

@@ -28,8 +28,10 @@ class BulletinListController extends AbstractController
         foreach (Bulletin::all() as $bulletin) {
             $response[] = [
                 'id' => $bulletin->getId(),
-                'createdAt' => $bulletin->getCreatedAt(),
+                'createdAt' => $bulletin->getCreatedAt()->getTimestamp(),
                 'title' => $bulletin->getTitle(),
+                'abstract' => $bulletin->getAbstract(),
+                'isDraft' => $bulletin->isDraft()
             ];
         }
         return response($response);

@@ -33,10 +33,11 @@ class BulletinItemController extends AbstractController
         return response([
             'id' => $bulletin->getId(),
             'createdAt' => $bulletin->getCreatedAt()->getTimestamp(),
-            'updatedAt' => $bulletin->getUpdatedAt()->getTimestamp(),
+            'updatedAt' => ($bulletin->getUpdatedAt() ?? $bulletin->getCreatedAt())->getTimestamp(),
             'title' => $bulletin->getTitle(),
             'content' => $bulletin->getContent(),
-            'isDraft' => $bulletin->isDraft()
+            'isDraft' => $bulletin->isDraft(),
+            'receivers' => $bulletin->getReceivers()
         ]);
     }
 }

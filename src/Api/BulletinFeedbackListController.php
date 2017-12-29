@@ -12,21 +12,16 @@
 namespace TeamELF\Ext\Bulletin\Api;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use TeamELF\Core\Member;
-use TeamELF\Core\Role;
-use TeamELF\Exception\HttpForbiddenException;
 use TeamELF\Exception\HttpNotFoundException;
 use TeamELF\Ext\Bulletin\Bulletin;
 use TeamELF\Http\AbstractController;
 
-class BulletinUpdateController extends AbstractController
+class BulletinFeedbackListController extends AbstractController
 {
     /**
      * handle the request
      *
      * @return Response
-     * @throws HttpForbiddenException
      * @throws HttpNotFoundException
      */
     public function handler(): Response
@@ -35,19 +30,20 @@ class BulletinUpdateController extends AbstractController
         if (!$bulletin) {
             throw new HttpNotFoundException();
         }
-        if (!$bulletin->isDraft()) {
-            throw new HttpForbiddenException();
+        $response = [];
+        foreach ($bulletin->getFeedbacks() as $feedback) {
+            $response[] = [
+                'id' => $feedback->getId(),
+                'updatedAt' => $feedback->getUpdatedAt() ? $feedback->getUpdatedAt()->getTimestamp() : null,
+                'receiver' => [
+                    'id' => $feedback->getReceiver()->getId(),
+                    'username' => $feedback->getReceiver()->getUsername(),
+                    'name' => $feedback->getReceiver()->getName()
+                ],
+                'checked' => $feedback->isChecked(),
+                'remark' => $feedback->getRemark()
+            ];
         }
-        $data = $this->validate([
-            'title' => [
-                new NotBlank()
-            ],
-            'content' => [
-                new NotBlank()
-            ],
-            'receivers' => []
-        ]);
-        $bulletin->update($data);
-        return response();
+        return response($response);
     }
 }
