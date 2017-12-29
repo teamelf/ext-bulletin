@@ -254,7 +254,10 @@ export default class extends Page {
           </Col>
           {!this.state.bulletin.isDraft &&
           <Col xs={24} md={12}>
-            <BulletinFeedback feedbacks={this.state.feedbacks}/>
+            <BulletinFeedback
+              statistics={this.state.bulletin.statistics}
+              feedbacks={this.state.feedbacks}
+            />
           </Col>
           }
         </Row>

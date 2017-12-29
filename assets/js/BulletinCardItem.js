@@ -9,6 +9,7 @@
 
 const { Card, Divider } = antd;
 import BulletinProcess from 'teamelf/bulletin/BulletinProcess';
+import { FeedbackTagUnread, FeedbackTagNoresponse, FeedbackTagConfirm, FeedbackTagRefuse} from 'teamelf/bulletin/BulletinFeedback';
 
 export default class extends React.Component {
   render () {
@@ -23,6 +24,13 @@ export default class extends React.Component {
         <div>{this.props.abstract}</div>
         <Divider/>
         <BulletinProcess isDraft={this.props.isDraft}/>
+        <Divider/>
+        <div>
+          <FeedbackTagUnread number={this.props.statistics.unread}/>
+          <FeedbackTagNoresponse number={this.props.statistics.noresponse}/>
+          <FeedbackTagConfirm number={this.props.statistics.confirm}/>
+          <FeedbackTagRefuse number={this.props.statistics.refuse}/>
+        </div>
       </Card>
     );
   }

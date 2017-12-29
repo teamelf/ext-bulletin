@@ -101,10 +101,10 @@ System.register('teamelf/bulletin/Bulletin', ['teamelf/Error', 'teamelf/bulletin
 });
 'use strict';
 
-System.register('teamelf/bulletin/BulletinCardItem', ['teamelf/bulletin/BulletinProcess'], function (_export, _context) {
+System.register('teamelf/bulletin/BulletinCardItem', ['teamelf/bulletin/BulletinProcess', 'teamelf/bulletin/BulletinFeedback'], function (_export, _context) {
   "use strict";
 
-  var BulletinProcess, _createClass, _antd, Card, Divider, _class;
+  var BulletinProcess, FeedbackTagUnread, FeedbackTagNoresponse, FeedbackTagConfirm, FeedbackTagRefuse, _createClass, _antd, Card, Divider, _class;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -139,6 +139,11 @@ System.register('teamelf/bulletin/BulletinCardItem', ['teamelf/bulletin/Bulletin
   return {
     setters: [function (_teamelfBulletinBulletinProcess) {
       BulletinProcess = _teamelfBulletinBulletinProcess.default;
+    }, function (_teamelfBulletinBulletinFeedback) {
+      FeedbackTagUnread = _teamelfBulletinBulletinFeedback.FeedbackTagUnread;
+      FeedbackTagNoresponse = _teamelfBulletinBulletinFeedback.FeedbackTagNoresponse;
+      FeedbackTagConfirm = _teamelfBulletinBulletinFeedback.FeedbackTagConfirm;
+      FeedbackTagRefuse = _teamelfBulletinBulletinFeedback.FeedbackTagRefuse;
     }],
     execute: function () {
       _createClass = function () {
@@ -194,7 +199,16 @@ System.register('teamelf/bulletin/BulletinCardItem', ['teamelf/bulletin/Bulletin
                 this.props.abstract
               ),
               React.createElement(Divider, null),
-              React.createElement(BulletinProcess, { isDraft: this.props.isDraft })
+              React.createElement(BulletinProcess, { isDraft: this.props.isDraft }),
+              React.createElement(Divider, null),
+              React.createElement(
+                'div',
+                null,
+                React.createElement(FeedbackTagUnread, { number: this.props.statistics.unread }),
+                React.createElement(FeedbackTagNoresponse, { number: this.props.statistics.noresponse }),
+                React.createElement(FeedbackTagConfirm, { number: this.props.statistics.confirm }),
+                React.createElement(FeedbackTagRefuse, { number: this.props.statistics.refuse })
+              )
             );
           }
         }]);
@@ -211,7 +225,7 @@ System.register('teamelf/bulletin/BulletinCardItem', ['teamelf/bulletin/Bulletin
 System.register("teamelf/bulletin/BulletinFeedback", [], function (_export, _context) {
   "use strict";
 
-  var _slicedToArray, _createClass, _antd, Card, Table, Tag, Checkbox, _class;
+  var _slicedToArray, _createClass, _antd, Card, Table, Tag, Checkbox, FeedbackTagUnread, FeedbackTagNoresponse, FeedbackTagConfirm, FeedbackTagRefuse, _class;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -308,6 +322,50 @@ System.register("teamelf/bulletin/BulletinFeedback", [], function (_export, _con
       Tag = _antd.Tag;
       Checkbox = _antd.Checkbox;
 
+      _export("FeedbackTagUnread", FeedbackTagUnread = function FeedbackTagUnread(props) {
+        return React.createElement(
+          Tag,
+          null,
+          props.number,
+          "\u672A\u67E5\u9605"
+        );
+      });
+
+      _export("FeedbackTagUnread", FeedbackTagUnread);
+
+      _export("FeedbackTagNoresponse", FeedbackTagNoresponse = function FeedbackTagNoresponse(props) {
+        return React.createElement(
+          Tag,
+          { color: "orange" },
+          props.number,
+          "\u5DF2\u8BFB"
+        );
+      });
+
+      _export("FeedbackTagNoresponse", FeedbackTagNoresponse);
+
+      _export("FeedbackTagConfirm", FeedbackTagConfirm = function FeedbackTagConfirm(props) {
+        return React.createElement(
+          Tag,
+          { color: "green" },
+          props.number,
+          "\u786E\u8BA4"
+        );
+      });
+
+      _export("FeedbackTagConfirm", FeedbackTagConfirm);
+
+      _export("FeedbackTagRefuse", FeedbackTagRefuse = function FeedbackTagRefuse(props) {
+        return React.createElement(
+          Tag,
+          { color: "red" },
+          props.number,
+          "\u62D2\u7EDD"
+        );
+      });
+
+      _export("FeedbackTagRefuse", FeedbackTagRefuse);
+
       _class = function (_React$Component) {
         _inherits(_class, _React$Component);
 
@@ -316,28 +374,6 @@ System.register("teamelf/bulletin/BulletinFeedback", [], function (_export, _con
 
           var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
 
-          _this.tags = {
-            unread: React.createElement(
-              Tag,
-              null,
-              "\u672A\u67E5\u9605"
-            ),
-            noresponse: React.createElement(
-              Tag,
-              { color: "orange" },
-              "\u5DF2\u8BFB"
-            ),
-            confirm: React.createElement(
-              Tag,
-              { color: "green" },
-              "\u786E\u8BA4"
-            ),
-            refuse: React.createElement(
-              Tag,
-              { color: "red" },
-              "\u62D2\u7EDD"
-            )
-          };
           _this.state = {
             filter: ['unread', 'noresponse', 'confirm', 'refuse']
           };
@@ -352,14 +388,14 @@ System.register("teamelf/bulletin/BulletinFeedback", [], function (_export, _con
             var dataSource = [];
             var getStatus = function getStatus(feedback) {
               if (feedback.checked === true) {
-                return ['confirm', _this2.tags.confirm];
+                return ['confirm', React.createElement(FeedbackTagConfirm, null)];
               } else if (feedback.checked === false) {
-                return ['refuse', _this2.tags.refuse];
+                return ['refuse', React.createElement(FeedbackTagRefuse, null)];
               } else {
                 if (feedback.updatedAt === null) {
-                  return ['unread', _this2.tags.unread];
+                  return ['unread', React.createElement(FeedbackTagUnread, null)];
                 } else {
-                  return ['noresponse', _this2.tags.noresponse];
+                  return ['noresponse', React.createElement(FeedbackTagNoresponse, null)];
                 }
               }
             };
@@ -414,7 +450,7 @@ System.register("teamelf/bulletin/BulletinFeedback", [], function (_export, _con
             var _this3 = this;
 
             var columns = [{ title: '接收人', dataIndex: 'receiver', key: 'receiver' }, { title: '状态', dataIndex: 'status', key: 'status' }, { title: '备注', dataIndex: 'remark', key: 'remark' }];
-            var filterOptions = [{ label: this.tags.unread, value: 'unread' }, { label: this.tags.noresponse, value: 'noresponse' }, { label: this.tags.confirm, value: 'confirm' }, { label: this.tags.refuse, value: 'refuse' }];
+            var filterOptions = [{ label: React.createElement(FeedbackTagUnread, { number: this.props.statistics.unread }), value: 'unread' }, { label: React.createElement(FeedbackTagNoresponse, { number: this.props.statistics.noresponse }), value: 'noresponse' }, { label: React.createElement(FeedbackTagConfirm, { number: this.props.statistics.confirm }), value: 'confirm' }, { label: React.createElement(FeedbackTagRefuse, { number: this.props.statistics.refuse }), value: 'refuse' }];
             return React.createElement(
               Card,
               null,
@@ -1079,7 +1115,10 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                 !this.state.bulletin.isDraft && React.createElement(
                   Col,
                   { xs: 24, md: 12 },
-                  React.createElement(BulletinFeedback, { feedbacks: this.state.feedbacks })
+                  React.createElement(BulletinFeedback, {
+                    statistics: this.state.bulletin.statistics,
+                    feedbacks: this.state.feedbacks
+                  })
                 )
               )];
             }

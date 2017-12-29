@@ -37,7 +37,8 @@ class BulletinItemController extends AbstractController
             'title' => $bulletin->getTitle(),
             'content' => $bulletin->getContent(),
             'isDraft' => $bulletin->isDraft(),
-            'receivers' => $bulletin->getReceivers()
+            'receivers' => $bulletin->getReceivers(),
+            'statistics' => $bulletin->getStatistics()
         ]);
     }
 }

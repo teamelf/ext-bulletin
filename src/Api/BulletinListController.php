@@ -31,7 +31,8 @@ class BulletinListController extends AbstractController
                 'createdAt' => $bulletin->getCreatedAt()->getTimestamp(),
                 'title' => $bulletin->getTitle(),
                 'abstract' => $bulletin->getAbstract(),
-                'isDraft' => $bulletin->isDraft()
+                'isDraft' => $bulletin->isDraft(),
+                'statistics' => $bulletin->getStatistics()
             ];
         }
         return response($response);

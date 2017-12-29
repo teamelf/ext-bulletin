@@ -180,6 +180,30 @@ class Bulletin extends AbstractModel
         }
     }
 
+    public function getStatistics()
+    {
+        $statistics = [
+            'unread' => 0,
+            'noresponse' => 0,
+            'confirm' => 0,
+            'refuse' => 0
+        ];
+        foreach ($this->getFeedbacks() as $feedback) {
+            if ($feedback->isChecked() === true) {
+                $statistics['confirm'] += 1;
+            } elseif ($feedback->isChecked() === false) {
+                $statistics['refuse'] += 1;
+            } else {
+                if ($feedback->getUpdatedAt() === null) {
+                    $statistics['unread'] += 1;
+                } else {
+                    $statistics['noresponse'] += 1;
+                }
+            }
+        }
+        return $statistics;
+    }
+
     /**
      * publish the bulletin
      *

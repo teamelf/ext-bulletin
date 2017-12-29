@@ -9,15 +9,14 @@
 
 const { Card, Table, Tag, Checkbox } = antd;
 
+export const FeedbackTagUnread = props => <Tag>{props.number}未查阅</Tag>;
+export const FeedbackTagNoresponse = props => <Tag color="orange">{props.number}已读</Tag>;
+export const FeedbackTagConfirm = props => <Tag color="green">{props.number}确认</Tag>;
+export const FeedbackTagRefuse = props => <Tag color="red">{props.number}拒绝</Tag>;
+
 export default class extends React.Component {
   constructor (props) {
     super(props);
-    this.tags = {
-      unread: <Tag>未查阅</Tag>,
-      noresponse: <Tag color="orange">已读</Tag>,
-      confirm: <Tag color="green">确认</Tag>,
-      refuse: <Tag color="red">拒绝</Tag>
-    };
     this.state = {
       filter: ['unread', 'noresponse', 'confirm', 'refuse']
     };
@@ -26,14 +25,14 @@ export default class extends React.Component {
     let dataSource = [];
     const getStatus = feedback => {
       if (feedback.checked === true) {
-        return ['confirm', this.tags.confirm];
+        return ['confirm', <FeedbackTagConfirm/>];
       } else if (feedback.checked === false) {
-        return ['refuse', this.tags.refuse];
+        return ['refuse', <FeedbackTagRefuse/>];
       } else {
         if (feedback.updatedAt === null) {
-          return ['unread', this.tags.unread];
+          return ['unread', <FeedbackTagUnread/>];
         } else {
-          return ['noresponse', this.tags.noresponse];
+          return ['noresponse', <FeedbackTagNoresponse/>];
         }
       }
     };
@@ -56,10 +55,10 @@ export default class extends React.Component {
       {title: '备注', dataIndex: 'remark', key: 'remark'}
     ];
     const filterOptions = [
-      {label: this.tags.unread, value: 'unread'},
-      {label: this.tags.noresponse, value: 'noresponse'},
-      {label: this.tags.confirm, value: 'confirm'},
-      {label: this.tags.refuse, value: 'refuse'},
+      {label: <FeedbackTagUnread number={this.props.statistics.unread}/>, value: 'unread'},
+      {label: <FeedbackTagNoresponse number={this.props.statistics.noresponse}/>, value: 'noresponse'},
+      {label: <FeedbackTagConfirm number={this.props.statistics.confirm}/>, value: 'confirm'},
+      {label: <FeedbackTagRefuse number={this.props.statistics.refuse}/>, value: 'refuse'},
     ];
     return (
       <Card>
