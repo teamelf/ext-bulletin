@@ -33,7 +33,7 @@ class BulletinDeleteController extends AbstractController
         if (!$bulletin) {
             throw new HttpNotFoundException();
         }
-        if ($bulletin->getStep() === 0) {
+        if ($bulletin->isDraft()) {
             $bulletin->delete(true);
         } else {
             throw new HttpForbiddenException();

@@ -100,7 +100,7 @@ export default class extends Page {
                 : '自动存草稿'
               }</Checkbox>
             </div>
-            {this.state.bulletin.step === 0 &&
+            {this.state.bulletin.isDraft &&
               <Row type="flex" justify="start" gutter={16}>
                 <Col>
                   <Button
@@ -176,7 +176,7 @@ export default class extends Page {
   view () {
     if (this.state.bulletin) {
       return [
-        <BulletinProcess step={this.state.bulletin.step}/>,
+        <BulletinProcess isDraft={this.state.bulletin.isDraft}/>,
         this.renderView()
       ];
     }

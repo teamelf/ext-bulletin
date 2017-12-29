@@ -397,7 +397,7 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                       this.state.autoSave && this.state.saving ? [React.createElement(Icon, { type: 'loading' }), ' 保存中...'] : '自动存草稿'
                     )
                   ),
-                  this.state.bulletin.step === 0 && React.createElement(
+                  this.state.bulletin.isDraft && React.createElement(
                     Row,
                     { type: 'flex', justify: 'start', gutter: 16 },
                     React.createElement(
@@ -515,7 +515,7 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
           key: 'view',
           value: function view() {
             if (this.state.bulletin) {
-              return [React.createElement(BulletinProcess, { step: this.state.bulletin.step }), this.renderView()];
+              return [React.createElement(BulletinProcess, { isDraft: this.state.bulletin.isDraft }), this.renderView()];
             }
           }
         }]);
@@ -708,7 +708,7 @@ System.register('teamelf/bulletin/BulletinProcess', [], function (_export, _cont
             return React.createElement(
               Steps,
               {
-                current: this.props.step,
+                current: this.props.isDraft ? 0 : 2,
                 style: { marginBottom: 16 }
               },
               this.steps.map(function (o) {

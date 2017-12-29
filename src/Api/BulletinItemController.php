@@ -36,7 +36,7 @@ class BulletinItemController extends AbstractController
             'updatedAt' => $bulletin->getUpdatedAt()->getTimestamp(),
             'title' => $bulletin->getTitle(),
             'content' => $bulletin->getContent(),
-            'step' => $bulletin->getStep()
+            'isDraft' => $bulletin->isDraft()
         ]);
     }
 }

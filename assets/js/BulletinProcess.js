@@ -21,7 +21,7 @@ export default class extends React.Component {
   render () {
     return (
       <Steps
-        current={this.props.step}
+        current={this.props.isDraft ? 0 : 2}
         style={{marginBottom: 16}}
       >
         {this.steps.map(o => (

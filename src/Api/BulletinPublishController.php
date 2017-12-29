@@ -33,7 +33,7 @@ class BulletinPublishController extends AbstractController
         if (!$bulletin) {
             throw new HttpNotFoundException();
         }
-        if ($bulletin->getStep() === 0) {
+        if ($bulletin->isDraft()) {
             $bulletin->publish();
         } else {
             throw new HttpForbiddenException();

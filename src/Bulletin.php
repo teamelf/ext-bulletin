@@ -37,11 +37,11 @@ class Bulletin extends AbstractModel
     protected $content;
 
     /**
-     * @var int
+     * @var boolean
      *
-     * @Column(type="integer", options={"default":0})
+     * @Column(type="boolean", options={"default":TRUE})
      */
-    protected $step;
+    protected $draft;
 
     // ----------------------------------------
     // | GETTERS & SETTERS
@@ -91,24 +91,24 @@ class Bulletin extends AbstractModel
     }
 
     /**
-     * getter of $step
+     * getter of $draft
      *
-     * @return int
+     * @return boolean
      */
-    public function getStep()
+    public function isDraft()
     {
-        return $this->step;
+        return !!$this->draft;
     }
 
     /**
-     * setter of $step
+     * setter of $draft
      *
-     * @param $step
+     * @param bool $draft
      * @return $this
      */
-    public function step($step)
+    public function draft(bool $draft)
     {
-        $this->step = $step;
+        $this->draft = $draft;
         return $this;
     }
 
@@ -122,7 +122,7 @@ class Bulletin extends AbstractModel
      */
     public function publish()
     {
-        $this->step(2)->save();
+        $this->draft(false)->save();
         // TODO: ADD PUBLISH EVENT
         return $this;
     }
