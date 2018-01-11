@@ -14,11 +14,13 @@ namespace TeamELF\Ext\Bulletin\Listener;
 use TeamELF\Event\RoutesWillBeLoaded;
 use TeamELF\Ext\Bulletin\Api\BulletinCreateController;
 use TeamELF\Ext\Bulletin\Api\BulletinDeleteController;
+use TeamELF\Ext\Bulletin\Api\BulletinFeedbackController;
 use TeamELF\Ext\Bulletin\Api\BulletinFeedbackListController;
 use TeamELF\Ext\Bulletin\Api\BulletinItemController;
 use TeamELF\Ext\Bulletin\Api\BulletinListController;
 use TeamELF\Ext\Bulletin\Api\BulletinPublishController;
 use TeamELF\Ext\Bulletin\Api\BulletinUpdateController;
+use TeamELF\Ext\Bulletin\View\BulletinViewController;
 
 class RoutesListener
 {
@@ -30,6 +32,9 @@ class RoutesListener
     public function handler(RoutesWillBeLoaded $event)
     {
         $event->getRouter()
+            ->prefix('/bulletin')
+            ->get('bulletin-view', '/{id}/view', BulletinViewController::class)
+
             ->prefix('/api/bulletin')
             ->get('bulletin-list', '', BulletinListController::class)
             ->post('bulletin-create', '', BulletinCreateController::class)
@@ -37,6 +42,7 @@ class RoutesListener
             ->put('bulletin-update', '/{id}', BulletinUpdateController::class)
             ->put('bulletin-publish', '/{id}/publish', BulletinPublishController::class)
             ->delete('bulletin-delete', '/{id}', BulletinDeleteController::class)
-            ->get('bulletin-feedback-list', '/{id}/feedback', BulletinFeedbackListController::class);
+            ->get('bulletin-feedback-list', '/{id}/feedback', BulletinFeedbackListController::class)
+            ->put('bulletin-feedback', '/feedback/{id}', BulletinFeedbackController::class);
     }
 }

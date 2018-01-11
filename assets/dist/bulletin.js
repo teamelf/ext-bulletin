@@ -1478,6 +1478,185 @@ System.register('teamelf/bulletin/BulletinProcess', [], function (_export, _cont
 });
 'use strict';
 
+System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout'], function (_export, _context) {
+  "use strict";
+
+  var SimpleLayout, _createClass, _antd, Button, Row, Col, Input, Alert, _class;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  return {
+    setters: [function (_teamelfCommonSimpleLayout) {
+      SimpleLayout = _teamelfCommonSimpleLayout.default;
+    }],
+    execute: function () {
+      _createClass = function () {
+        function defineProperties(target, props) {
+          for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+          }
+        }
+
+        return function (Constructor, protoProps, staticProps) {
+          if (protoProps) defineProperties(Constructor.prototype, protoProps);
+          if (staticProps) defineProperties(Constructor, staticProps);
+          return Constructor;
+        };
+      }();
+
+      _antd = antd;
+      Button = _antd.Button;
+      Row = _antd.Row;
+      Col = _antd.Col;
+      Input = _antd.Input;
+      Alert = _antd.Alert;
+
+      _class = function (_SimpleLayout) {
+        _inherits(_class, _SimpleLayout);
+
+        function _class(props) {
+          _classCallCheck(this, _class);
+
+          var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
+
+          _this.state = {
+            remark: ''
+          };
+          return _this;
+        }
+
+        _createClass(_class, [{
+          key: 'feedback',
+          value: function feedback(accept) {
+            var query = new URLSearchParams(window.location.search);
+            var data = {
+              accept: accept,
+              remark: this.state.remark
+            };
+            axios.put('bulletin/feedback/' + query.get('token'), data).then(function (r) {
+              window.location.reload();
+            });
+          }
+        }, {
+          key: 'renderOptionChoice',
+          value: function renderOptionChoice() {
+            var _this2 = this;
+
+            if (this.props.feedback === null) {
+              return [React.createElement(
+                Row,
+                { type: 'flex', align: 'space-around', style: { marginBottom: 10 } },
+                React.createElement(
+                  Col,
+                  null,
+                  React.createElement(
+                    Button,
+                    {
+                      size: 'large', type: 'primary',
+                      onClick: this.feedback.bind(this, true)
+                    },
+                    '\u786E\u8BA4'
+                  )
+                ),
+                React.createElement(
+                  Col,
+                  null,
+                  React.createElement(
+                    Button,
+                    {
+                      size: 'large', type: 'danger',
+                      onClick: this.feedback.bind(this, false)
+                    },
+                    '\u62D2\u7EDD'
+                  )
+                )
+              ), React.createElement(Input, {
+                placeholder: 'Leave a message here ...',
+                size: 'large',
+                value: this.state.remark,
+                onChange: function onChange(e) {
+                  return _this2.setState({ remark: e.target.value });
+                }
+              })];
+            } else {
+              return [React.createElement(Alert, {
+                type: this.props.feedback ? 'success' : 'error', showIcon: true,
+                message: this.props.feedback ? '接受' : '拒绝',
+                description: '\u60A8\u5DF2\u505A\u51FA\u9009\u62E9\uFF0C\u4E0D\u80FD\u4FEE\u6539'
+              }), React.createElement(Alert, {
+                style: { marginTop: 20 },
+                type: 'info', showIcon: true,
+                message: '\u60A8\u7684\u53CD\u9988\u7559\u8A00',
+                description: window.remark
+              })];
+            }
+          }
+        }, {
+          key: 'view',
+          value: function view() {
+            return [React.createElement(
+              'h1',
+              null,
+              this.props.title
+            ), React.createElement('div', {
+              style: { textAlign: 'left' },
+              dangerouslySetInnerHTML: { __html: marked(this.props.content) }
+            }), React.createElement(
+              'div',
+              {
+                style: { textAlign: 'right' }
+              },
+              '\u53D1\u5E03\u4E8E\uFF1A',
+              moment.unix(this.props.updatedAt).format('YYYY-MM-DD H:m:s')
+            ), React.createElement(
+              'div',
+              { style: { textAlign: 'left', marginTop: 30 } },
+              this.renderOptionChoice()
+            )];
+          }
+        }]);
+
+        return _class;
+      }(SimpleLayout);
+
+      _export('default', _class);
+    }
+  };
+});
+'use strict';
+
 System.register('teamelf/bulletin/main', ['teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
   "use strict";
 
@@ -1518,6 +1697,40 @@ System.register('teamelf/bulletin/main', ['teamelf/bulletin/Bulletin', 'teamelf/
       App.prototype.routes = [].concat(_toConsumableArray(App.prototype.routes || []), [{ path: '/bulletin', component: Bulletin }]);
       SideNav.prototype.navigations = [].concat(_toConsumableArray(SideNav.prototype.navigations || []), [{ path: '/bulletin', icon: 'notification', title: '公告管理' }]);
       Permission.prototype.permissions = [].concat(_toConsumableArray(Permission.prototype.permissions || []), [{ name: '查看所有通知', permission: 'bulletin.list' }, { name: '发送通知', permission: 'bulletin.create' }]);
+    }
+  };
+});
+'use strict';
+
+System.register('teamelf/bulletin/view', ['teamelf/bulletin/BulletinView'], function (_export, _context) {
+  "use strict";
+
+  var BulletinView, _extends, target;
+
+  return {
+    setters: [function (_teamelfBulletinBulletinView) {
+      BulletinView = _teamelfBulletinBulletinView.default;
+    }],
+    execute: function () {
+      _extends = Object.assign || function (target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = arguments[i];
+
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+
+        return target;
+      };
+
+      target = document.getElementById('react-render-target-bulletin-view');
+
+      if (target) {
+        ReactDOM.render(React.createElement(BulletinView, _extends({}, window.bulletin, { feedback: window.feedback })), target);
+      }
     }
   };
 });

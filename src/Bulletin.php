@@ -230,20 +230,20 @@ class Bulletin extends AbstractModel
                 }
             }
         }
-        $emails = [];
         foreach ($members as $member) {
-            (new BulletinFeedback([
+            $bulletin = (new BulletinFeedback([
                 'bulletin' => $this,
                 'receiver' => $member
             ]))->save();
-            $emails[] = $member->getEmail();
+            app()->dispatch(new MessageNeedsToBeSent(
+                $member->getEmail(),
+                $this->getTitle(),
+                '有一条关于您的新通知 [ ' . $this->getTitle() . ' ]' . "\n"
+                . $this->getAbstract() . "\n\n"
+                . '详情请登录系统查阅' . "\n"
+                . env('BASE_URL') . '/bulletin/' . $this->getId() . '/view?token=' . $bulletin->getId()
+            ));
         }
-        app()->dispatch(new MessageNeedsToBeSent(
-            $emails,
-            $this->getTitle(),
-            '有一条关于您的新通知 [ ' . $this->getTitle() . ' ]，详情请登录系统查阅' . "\n"
-            . env('BASE_URL') . '/bulletin/' . $this->getId()
-        ));
         $this->draft(false)->save();
         return $this;
     }

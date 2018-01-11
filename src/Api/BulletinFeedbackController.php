@@ -12,13 +12,13 @@
 namespace TeamELF\Ext\Bulletin\Api;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Choice;
 use TeamELF\Exception\HttpForbiddenException;
 use TeamELF\Exception\HttpNotFoundException;
-use TeamELF\Ext\Bulletin\Bulletin;
+use TeamELF\Ext\Bulletin\BulletinFeedback;
 use TeamELF\Http\AbstractController;
 
-class BulletinUpdateController extends AbstractController
+class BulletinFeedbackController extends AbstractController
 {
     /**
      * handle the request
@@ -29,23 +29,22 @@ class BulletinUpdateController extends AbstractController
      */
     public function handler(): Response
     {
-        $bulletin = Bulletin::find($this->getParameter('id'));
-        if (!$bulletin) {
+        $data = $this->validate([
+            'accept' => [
+                new Choice(['choices' => [true, false, 0, 1]])
+            ],
+            'remark' => []
+        ]);
+        $feedback = BulletinFeedback::find($this->getParameter('id'));
+        if (!$feedback) {
             throw new HttpNotFoundException();
         }
-        if (!$bulletin->isDraft()) {
+        if ($feedback->isChecked() !== null) {
             throw new HttpForbiddenException();
         }
-        $data = $this->validate([
-            'title' => [
-                new NotBlank()
-            ],
-            'content' => [
-                new NotBlank()
-            ],
-            'receivers' => []
-        ]);
-        $bulletin->update($data);
+        $feedback->checked(!!$data['accept']);
+        $feedback->remark($data['remark']);
+        $feedback->save();
         return response();
     }
 }

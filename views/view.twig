@@ -1,0 +1,11 @@
+{% extends "layout/base.twig" %}
+
+{% block body %}
+  {{ parent() }}
+  <div id="react-render-target-bulletin-view">
+    {% include "layout/loading.twig" %}
+  </div>
+  <script>window.bulletin = {{ bulletin | json_encode | raw }};</script>
+  <script>window.feedback = {{ feedback is null ? 'null' : (feedback ? 'true' : 'false') }};</script>
+  <script>window.remark = '{{ remark | raw }}';</script>
+{% endblock %}
