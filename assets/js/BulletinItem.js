@@ -231,7 +231,7 @@ export default class extends Page {
         <div style={{marginBottom: 16}}>
           <Input.TextArea
             size="large"
-            autosize={{minRows: 10, maxRows: 30}}
+            autosize={{minRows: 10, maxRows: 999999}}
             value={this.state.bulletin.content}
             onChange={e => this.handleBulletinChange('content', e.target.value)}
           />

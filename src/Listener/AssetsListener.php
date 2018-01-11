@@ -23,6 +23,7 @@ class AssetsListener
     public function handler(AppAssetsHaveBeAdded $event)
     {
         $event->getAssets()
+            ->addCss(__DIR__ . '/../../assets/dist/bulletin.css')
             ->addJs(__DIR__ . '/../../assets/dist/bulletin.js')
             ->entry('teamelf/bulletin/main');
     }

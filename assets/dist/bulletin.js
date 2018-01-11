@@ -1092,7 +1092,7 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                 { style: { marginBottom: 16 } },
                 React.createElement(Input.TextArea, {
                   size: 'large',
-                  autosize: { minRows: 10, maxRows: 30 },
+                  autosize: { minRows: 10, maxRows: 999999 },
                   value: this.state.bulletin.content,
                   onChange: function onChange(e) {
                     return _this8.handleBulletinChange('content', e.target.value);
@@ -1364,7 +1364,10 @@ System.register("teamelf/bulletin/BulletinPreview", [], function (_export, _cont
                 this.props.title
               ),
               React.createElement(Divider, null),
-              React.createElement("div", { dangerouslySetInnerHTML: { __html: marked(this.props.content) } })
+              React.createElement("div", {
+                className: "markdown",
+                dangerouslySetInnerHTML: { __html: marked(this.props.content) }
+              })
             );
           }
         }]);
@@ -1632,6 +1635,7 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
               this.props.title
             ), React.createElement('div', {
               style: { textAlign: 'left' },
+              className: 'markdown',
               dangerouslySetInnerHTML: { __html: marked(this.props.content) }
             }), React.createElement(
               'div',
@@ -1657,7 +1661,7 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
 });
 'use strict';
 
-System.register('teamelf/bulletin/main', ['teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
+System.register('teamelf/bulletin/main', ['teamelf/bulletin/markdown-settings', 'teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
   "use strict";
 
   var Bulletin, App, SideNav, Permission;
@@ -1675,7 +1679,7 @@ System.register('teamelf/bulletin/main', ['teamelf/bulletin/Bulletin', 'teamelf/
   }
 
   return {
-    setters: [function (_teamelfBulletinBulletin) {
+    setters: [function (_teamelfBulletinMarkdownSettings) {}, function (_teamelfBulletinBulletin) {
       Bulletin = _teamelfBulletinBulletin.default;
     }, function (_teamelfApp) {
       App = _teamelfApp.default;
@@ -1702,13 +1706,39 @@ System.register('teamelf/bulletin/main', ['teamelf/bulletin/Bulletin', 'teamelf/
 });
 'use strict';
 
-System.register('teamelf/bulletin/view', ['teamelf/bulletin/BulletinView'], function (_export, _context) {
+System.register('teamelf/bulletin/markdown-settings', [], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [],
+    execute: function () {
+      /**
+       * This file is part of TeamELF
+       *
+       * (c) GuessEver <guessever@gmail.com>
+       *
+       * For the full copyright and license information, please view the LICENSE
+       * file that was distributed with this source code.
+       */
+
+      marked.setOptions({
+        breaks: true,
+        highlight: function highlight(code) {
+          return '暂不支持好看的代码哦';
+        }
+      });
+    }
+  };
+});
+'use strict';
+
+System.register('teamelf/bulletin/view', ['teamelf/bulletin/markdown-settings', 'teamelf/bulletin/BulletinView'], function (_export, _context) {
   "use strict";
 
   var BulletinView, _extends, target;
 
   return {
-    setters: [function (_teamelfBulletinBulletinView) {
+    setters: [function (_teamelfBulletinMarkdownSettings) {}, function (_teamelfBulletinBulletinView) {
       BulletinView = _teamelfBulletinBulletinView.default;
     }],
     execute: function () {

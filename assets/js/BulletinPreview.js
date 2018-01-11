@@ -15,7 +15,10 @@ export default class extends React.Component {
       <Card>
         <h2>{this.props.title}</h2>
         <Divider/>
-        <div dangerouslySetInnerHTML={{__html: marked(this.props.content)}}/>
+        <div
+          className="markdown"
+          dangerouslySetInnerHTML={{__html: marked(this.props.content)}}
+        />
       </Card>
     );
   }
