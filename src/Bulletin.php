@@ -15,7 +15,6 @@ use TeamELF\Core\Member;
 use TeamELF\Core\Role;
 use TeamELF\Database\AbstractModel;
 use TeamELF\Ext\Mailer\Event\MessageNeedsToBeSent;
-use TeamELF\View\ViewService;
 
 /**
  * @Entity
@@ -242,10 +241,8 @@ class Bulletin extends AbstractModel
         app()->dispatch(new MessageNeedsToBeSent(
             $emails,
             $this->getTitle(),
-            ViewService::getEngine()->render('@ext-bulletin/bulletin.twig', [
-                'content' => \Parsedown::instance()->setUrlsLinked(false)->text($this->getContent())
-            ]),
-            null
+            '有一条关于您的新通知 [ ' . $this->getTitle() . ' ]，详情请登录系统查阅' . "\n"
+            . env('BASE_URL') . '/bulletin/' . $this->getId()
         ));
         $this->draft(false)->save();
         return $this;
