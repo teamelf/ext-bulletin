@@ -206,6 +206,49 @@ export default class extends Page {
     bulletin[key] = value;
     this.setState({bulletin, changed: true});
   }
+  handleTextAreaPaste (e) {
+    e.preventDefault();
+    const selectionStart = e.target.selectionStart;
+    const selectionEnd = e.target.selectionEnd;
+    for (let item of e.clipboardData.items) {
+      switch (item.kind) {
+        case 'string':
+          item.getAsString(str => {
+            let text = this.state.bulletin.content;
+            text = text.substring(0, selectionStart) + str + text.substring(selectionEnd);
+            this.handleBulletinChange('content', text);
+          });
+          break;
+        case 'file':
+          console.log(item.type);
+          if (item.type.match(/^image\//)) {
+            const img = item.getAsFile();
+            if (!img) return;
+
+            let text = this.state.bulletin.content;
+            const uid = CryptoJS.SHA1(+new Date() + ',' + parseInt(Math.random()*100000000)).toString();
+            const placeholder = `![img 上传中...](${uid})`;
+            text = text.substring(0, selectionStart) + placeholder + text.substring(selectionEnd);
+            this.handleBulletinChange('content', text);
+
+            const id = this.props.match.params.id;
+            const formData = new FormData();
+            formData.append('attachment', img);
+            axios.post(`bulletin/${id}/attachment`, formData).then(r => {
+              let text = this.state.bulletin.content;
+              const mark = `![img](${r.data.url})`;
+              text = text.replace(placeholder, mark);
+              this.handleBulletinChange('content', text);
+            }).catch(e => {
+              let text = this.state.bulletin.content;
+              text = text.replace(placeholder, '');
+              this.handleBulletinChange('content', text);
+            })
+          }
+          break;
+      }
+    }
+  }
   renderEditor () {
     return (
       <div>
@@ -214,6 +257,7 @@ export default class extends Page {
             size="large"
             value={this.state.bulletin.title}
             onChange={e => this.handleBulletinChange('title', e.target.value)}
+            onInput={e => console.log(e)}
           />
         </div>
         <div style={{marginBottom: 16}}>
@@ -229,11 +273,13 @@ export default class extends Page {
           />
         </div>
         <div style={{marginBottom: 16}}>
+          <div align="right"><small>可粘贴上传图片，暂不支持其他附件上传</small></div>
           <Input.TextArea
             size="large"
             autosize={{minRows: 10, maxRows: 999999}}
             value={this.state.bulletin.content}
             onChange={e => this.handleBulletinChange('content', e.target.value)}
+            onPaste={this.handleTextAreaPaste.bind(this)}
           />
         </div>
       </div>

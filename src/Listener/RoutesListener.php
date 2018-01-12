@@ -12,6 +12,7 @@
 namespace TeamELF\Ext\Bulletin\Listener;
 
 use TeamELF\Event\RoutesWillBeLoaded;
+use TeamELF\Ext\Bulletin\Api\BulletinAttachmentUploadController;
 use TeamELF\Ext\Bulletin\Api\BulletinCreateController;
 use TeamELF\Ext\Bulletin\Api\BulletinDeleteController;
 use TeamELF\Ext\Bulletin\Api\BulletinFeedbackController;
@@ -41,6 +42,7 @@ class RoutesListener
             ->get('bulletin-item', '/{id}', BulletinItemController::class)
             ->put('bulletin-update', '/{id}', BulletinUpdateController::class)
             ->put('bulletin-publish', '/{id}/publish', BulletinPublishController::class)
+            ->post('bulletin-attachment-upload', '/{id}/attachment', BulletinAttachmentUploadController::class)
             ->delete('bulletin-delete', '/{id}', BulletinDeleteController::class)
             ->get('bulletin-feedback-list', '/{id}/feedback', BulletinFeedbackListController::class)
             ->put('bulletin-feedback', '/feedback/{id}', BulletinFeedbackController::class);
