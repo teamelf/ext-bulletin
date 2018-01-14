@@ -37,7 +37,7 @@ class BulletinAttachmentUploadController extends AbstractController
         if (!$attachment) {
             throw new HttpValidationException();
         }
-        $directory = app()->getStoragePath() . '/public/bulletin/' . $bulletin->getId() . '/';
+        $directory = app()->getStoragePath() . '/public/bulletin/' . $bulletin->getId();
         $filename = ShortUuid::uuid4() . '.' . $attachment->guessExtension();
         $attachment->move($directory, $filename);
         return response([
