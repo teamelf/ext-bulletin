@@ -12,13 +12,14 @@
 namespace TeamELF\Ext\Bulletin\Api;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use TeamELF\Core\Config;
 use TeamELF\Ext\Bulletin\Bulletin;
 use TeamELF\Http\AbstractController;
 
 class BulletinCreateController extends AbstractController
 {
+    protected $needPermissions = ['bulletin.create'];
+
     /**
      * handle the request
      *

@@ -79,11 +79,17 @@ export default class extends Page {
   async publish () {
     const id = this.props.match.params.id;
     await this.save();
-    this.setState({publishing: true});
-    return axios.put(`bulletin/${id}/publish`).then(r => {
-      window.location.reload();
-    }).catch(e => {
-      this.setState({publishing: false});
+    antd.Modal.confirm({
+      title: '不可撤销',
+      content: '确定要发布公告么？一旦发布，会逐一通知列表中的成员',
+      onOk: () => {
+        this.setState({publishing: true});
+        return axios.put(`bulletin/${id}/publish`).then(r => {
+          window.location.reload();
+        }).catch(e => {
+          this.setState({publishing: false});
+        });
+      }
     });
   }
   del () {

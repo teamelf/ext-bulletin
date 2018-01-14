@@ -17,6 +17,8 @@ use TeamELF\Http\AbstractController;
 
 class BulletinListController extends AbstractController
 {
+    protected $needPermissions = ['bulletin.list'];
+
     /**
      * handle the request
      *

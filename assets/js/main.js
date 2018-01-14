@@ -30,8 +30,12 @@ extend(Permission.prototype, 'permissions', permissions => {
   permissions.push({
     name: '公告管理',
     children: [
-      {name: '查看所有通知', permission: 'bulletin.list'},
-      {name: '发送通知', permission: 'bulletin.create'}
+      {name: '查看通知列表', permission: 'bulletin.list'},
+      {name: '查看通知详情', permission: 'bulletin.item'},
+      {name: '创建新通知', permission: 'bulletin.create'},
+      {name: '编辑未发布的通知', permission: 'bulletin.update'},
+      {name: '发布通知', permission: 'bulletin.publish'},
+      {name: '查看通知反馈', permission: 'bulletin.feedback.list'}
     ]
   });
 });

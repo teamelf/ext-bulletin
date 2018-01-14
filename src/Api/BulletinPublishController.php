@@ -12,7 +12,6 @@
 namespace TeamELF\Ext\Bulletin\Api;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use TeamELF\Exception\HttpForbiddenException;
 use TeamELF\Exception\HttpNotFoundException;
 use TeamELF\Ext\Bulletin\Bulletin;
@@ -20,6 +19,8 @@ use TeamELF\Http\AbstractController;
 
 class BulletinPublishController extends AbstractController
 {
+    protected $needPermissions = ['bulletin.publish'];
+
     /**
      * handle the request
      *

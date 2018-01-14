@@ -20,6 +20,8 @@ use TeamELF\Http\AbstractController;
 
 class BulletinUpdateController extends AbstractController
 {
+    protected $needPermissions = ['bulletin.update'];
+
     /**
      * handle the request
      *

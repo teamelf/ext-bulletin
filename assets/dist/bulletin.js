@@ -791,14 +791,20 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                       return this.save();
 
                     case 3:
-                      this.setState({ publishing: true });
-                      return _context3.abrupt('return', axios.put('bulletin/' + id + '/publish').then(function (r) {
-                        window.location.reload();
-                      }).catch(function (e) {
-                        _this4.setState({ publishing: false });
-                      }));
+                      antd.Modal.confirm({
+                        title: '不可撤销',
+                        content: '确定要发布公告么？一旦发布，会逐一通知列表中的成员',
+                        onOk: function onOk() {
+                          _this4.setState({ publishing: true });
+                          return axios.put('bulletin/' + id + '/publish').then(function (r) {
+                            window.location.reload();
+                          }).catch(function (e) {
+                            _this4.setState({ publishing: false });
+                          });
+                        }
+                      });
 
-                    case 5:
+                    case 4:
                     case 'end':
                       return _context3.stop();
                   }
@@ -1791,7 +1797,7 @@ System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bull
       extend(Permission.prototype, 'permissions', function (permissions) {
         permissions.push({
           name: '公告管理',
-          children: [{ name: '查看所有通知', permission: 'bulletin.list' }, { name: '发送通知', permission: 'bulletin.create' }]
+          children: [{ name: '查看通知列表', permission: 'bulletin.list' }, { name: '查看通知详情', permission: 'bulletin.item' }, { name: '创建新通知', permission: 'bulletin.create' }, { name: '编辑未发布的通知', permission: 'bulletin.update' }, { name: '发布通知', permission: 'bulletin.publish' }, { name: '查看通知反馈', permission: 'bulletin.feedback.list' }]
         });
       });
     }

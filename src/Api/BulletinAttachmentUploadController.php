@@ -20,6 +20,8 @@ use PascalDeVink\ShortUuid\ShortUuid;
 
 class BulletinAttachmentUploadController extends AbstractController
 {
+    protected $needPermissions = ['bulletin.update'];
+
     /**
      * handle the request
      *

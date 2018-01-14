@@ -18,6 +18,8 @@ use TeamELF\Http\AbstractController;
 
 class BulletinFeedbackListController extends AbstractController
 {
+    protected $needPermissions = ['bulletin.feedback.list'];
+
     /**
      * handle the request
      *
