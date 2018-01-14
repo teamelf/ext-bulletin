@@ -1789,7 +1789,10 @@ System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bull
       });
 
       extend(Permission.prototype, 'permissions', function (permissions) {
-        permissions.push.apply(permissions, [{ name: '查看所有通知', permission: 'bulletin.list' }, { name: '发送通知', permission: 'bulletin.create' }]);
+        permissions.push({
+          name: '公告管理',
+          children: [{ name: '查看所有通知', permission: 'bulletin.list' }, { name: '发送通知', permission: 'bulletin.create' }]
+        });
       });
     }
   };

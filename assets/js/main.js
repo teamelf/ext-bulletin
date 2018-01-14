@@ -27,8 +27,11 @@ extend(SideNav.prototype, 'navigations', navigations => {
 });
 
 extend(Permission.prototype, 'permissions', permissions => {
-  permissions.push(...[
-    {name: '查看所有通知', permission: 'bulletin.list'},
-    {name: '发送通知', permission: 'bulletin.create'}
-  ]);
+  permissions.push({
+    name: '公告管理',
+    children: [
+      {name: '查看所有通知', permission: 'bulletin.list'},
+      {name: '发送通知', permission: 'bulletin.create'}
+    ]
+  });
 });
