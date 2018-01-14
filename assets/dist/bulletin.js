@@ -1754,25 +1754,14 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
 });
 'use strict';
 
-System.register('teamelf/bulletin/main', ['teamelf/bulletin/markdown-settings', 'teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
+System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bulletin/markdown-settings', 'teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
   "use strict";
 
-  var Bulletin, App, SideNav, Permission;
-
-  function _toConsumableArray(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-        arr2[i] = arr[i];
-      }
-
-      return arr2;
-    } else {
-      return Array.from(arr);
-    }
-  }
-
+  var extend, Bulletin, App, SideNav, Permission;
   return {
-    setters: [function (_teamelfBulletinMarkdownSettings) {}, function (_teamelfBulletinBulletin) {
+    setters: [function (_teamelfCommonExtend) {
+      extend = _teamelfCommonExtend.default;
+    }, function (_teamelfBulletinMarkdownSettings) {}, function (_teamelfBulletinBulletin) {
       Bulletin = _teamelfBulletinBulletin.default;
     }, function (_teamelfApp) {
       App = _teamelfApp.default;
@@ -1791,9 +1780,17 @@ System.register('teamelf/bulletin/main', ['teamelf/bulletin/markdown-settings', 
        * file that was distributed with this source code.
        */
 
-      App.prototype.routes = [].concat(_toConsumableArray(App.prototype.routes || []), [{ path: '/bulletin', component: Bulletin }]);
-      SideNav.prototype.navigations = [].concat(_toConsumableArray(SideNav.prototype.navigations || []), [{ path: '/bulletin', icon: 'notification', title: '公告管理' }]);
-      Permission.prototype.permissions = [].concat(_toConsumableArray(Permission.prototype.permissions || []), [{ name: '查看所有通知', permission: 'bulletin.list' }, { name: '发送通知', permission: 'bulletin.create' }]);
+      extend(App.prototype, 'routes', function (routes) {
+        routes.push.apply(routes, [{ path: '/bulletin', component: Bulletin }]);
+      });
+
+      extend(SideNav.prototype, 'navigations', function (navigations) {
+        navigations.push.apply(navigations, [{ path: '/bulletin', icon: 'notification', title: '公告管理' }]);
+      });
+
+      extend(Permission.prototype, 'permissions', function (permissions) {
+        permissions.push.apply(permissions, [{ name: '查看所有通知', permission: 'bulletin.list' }, { name: '发送通知', permission: 'bulletin.create' }]);
+      });
     }
   };
 });
