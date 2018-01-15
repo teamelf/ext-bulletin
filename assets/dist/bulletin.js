@@ -724,9 +724,8 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
 
                     case 33:
                       this.setState({ mentionList: roles });
-                      this.fetchFeedback();
 
-                    case 35:
+                    case 34:
                     case 'end':
                       return _context2.stop();
                   }
@@ -1021,7 +1020,8 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                         {
                           type: 'primary',
                           onClick: this.save.bind(this),
-                          loading: this.state.saving
+                          loading: this.state.saving,
+                          disabled: !can('bulletin.update')
                         },
                         '\u4FDD\u5B58\u8349\u7A3F'
                       )
@@ -1034,7 +1034,8 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                         {
                           type: 'primary',
                           onClick: this.publish.bind(this),
-                          loading: this.state.publishing
+                          loading: this.state.publishing,
+                          disabled: !can('bulletin.publish')
                         },
                         '\u53D1\u5E03\u516C\u544A'
                       )
@@ -1047,7 +1048,8 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                         {
                           type: 'danger',
                           onClick: this.del.bind(this),
-                          loading: this.state.deleting
+                          loading: this.state.deleting,
+                          disabled: !can('bulletin.delete')
                         },
                         '\u820D\u5F03'
                       )
@@ -1344,7 +1346,9 @@ System.register('teamelf/bulletin/BulletinList', ['teamelf/layout/Page', 'teamel
               Button,
               {
                 type: 'primary',
-                onClick: this.createBulletin.bind(this)
+                onClick: this.createBulletin.bind(this),
+                icon: 'notification',
+                disabled: !can('bulletin.create')
               },
               '\u65B0\u5EFA\u516C\u544A'
             )];
@@ -1791,13 +1795,15 @@ System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bull
       });
 
       extend(SideNav.prototype, 'navigations', function (navigations) {
-        navigations.push.apply(navigations, [{ path: '/bulletin', icon: 'notification', title: '公告管理' }]);
+        if (can('bulletin.*')) {
+          navigations.push({ path: '/bulletin', icon: 'notification', title: '公告管理' });
+        }
       });
 
       extend(Permission.prototype, 'permissions', function (permissions) {
         permissions.push({
           name: '公告管理',
-          children: [{ name: '查看通知列表', permission: 'bulletin.list' }, { name: '查看通知详情', permission: 'bulletin.item' }, { name: '创建新通知', permission: 'bulletin.create' }, { name: '编辑未发布的通知', permission: 'bulletin.update' }, { name: '发布通知', permission: 'bulletin.publish' }, { name: '查看通知反馈', permission: 'bulletin.feedback.list' }]
+          children: [{ name: '查看通知列表', permission: 'bulletin.list' }, { name: '查看通知详情', permission: 'bulletin.item' }, { name: '创建新通知', permission: 'bulletin.create' }, { name: '编辑未发布的通知', permission: 'bulletin.update' }, { name: '删除未发布的通知', permission: 'bulletin.delete' }, { name: '发布通知', permission: 'bulletin.publish' }, { name: '查看通知反馈', permission: 'bulletin.feedback.list' }]
         });
       });
     }

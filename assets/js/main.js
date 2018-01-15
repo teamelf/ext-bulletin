@@ -21,9 +21,9 @@ extend(App.prototype, 'routes', routes => {
 });
 
 extend(SideNav.prototype, 'navigations', navigations => {
-  navigations.push(...[
-    {path: '/bulletin', icon: 'notification', title: '公告管理'}
-  ]);
+  if (can('bulletin.*')) {
+    navigations.push({path: '/bulletin', icon: 'notification', title: '公告管理'});
+  }
 });
 
 extend(Permission.prototype, 'permissions', permissions => {
@@ -34,6 +34,7 @@ extend(Permission.prototype, 'permissions', permissions => {
       {name: '查看通知详情', permission: 'bulletin.item'},
       {name: '创建新通知', permission: 'bulletin.create'},
       {name: '编辑未发布的通知', permission: 'bulletin.update'},
+      {name: '删除未发布的通知', permission: 'bulletin.delete'},
       {name: '发布通知', permission: 'bulletin.publish'},
       {name: '查看通知反馈', permission: 'bulletin.feedback.list'}
     ]

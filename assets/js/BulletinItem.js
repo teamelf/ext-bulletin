@@ -47,7 +47,6 @@ export default class extends Page {
       });
     }
     this.setState({mentionList: roles});
-    this.fetchFeedback();
   }
   fetchBulletin () {
     const id = this.props.match.params.id;
@@ -184,6 +183,7 @@ export default class extends Page {
                   type="primary"
                   onClick={this.save.bind(this)}
                   loading={this.state.saving}
+                  disabled={!can('bulletin.update')}
                 >保存草稿</Button>
               </Col>
               <Col>
@@ -191,6 +191,7 @@ export default class extends Page {
                   type="primary"
                   onClick={this.publish.bind(this)}
                   loading={this.state.publishing}
+                  disabled={!can('bulletin.publish')}
                 >发布公告</Button>
               </Col>
               <Col>
@@ -198,6 +199,7 @@ export default class extends Page {
                   type="danger"
                   onClick={this.del.bind(this)}
                   loading={this.state.deleting}
+                  disabled={!can('bulletin.delete')}
                 >舍弃</Button>
               </Col>
             </Row>

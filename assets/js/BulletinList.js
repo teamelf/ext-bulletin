@@ -33,6 +33,8 @@ export default class extends Page {
       <Button
         type="primary"
         onClick={this.createBulletin.bind(this)}
+        icon="notification"
+        disabled={!can('bulletin.create')}
       >新建公告</Button>
     ];
   }
