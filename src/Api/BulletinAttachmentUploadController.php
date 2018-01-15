@@ -42,6 +42,7 @@ class BulletinAttachmentUploadController extends AbstractController
         $directory = app()->getStoragePath() . '/public/bulletin/' . $bulletin->getId();
         $filename = ShortUuid::uuid4() . '.' . $attachment->guessExtension();
         $attachment->move($directory, $filename);
+        $this->log('info', 'Upload attachment [' . $filename . '] for bulletin [' . $bulletin->getId() . ']');
         return response([
             'url' => '/storage/bulletin/' . $bulletin->getId() . '/' . $filename,
         ]);

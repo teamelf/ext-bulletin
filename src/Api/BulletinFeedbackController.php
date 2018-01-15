@@ -45,6 +45,7 @@ class BulletinFeedbackController extends AbstractController
         $feedback->checked(!!$data['accept']);
         $feedback->remark($data['remark']);
         $feedback->save();
+        $this->log('info', '[' . $feedback->getReceiver()->getUsername() . '] has feedback for bulletin [' . $feedback->getBulletin()->getId() . ']');
         return response();
     }
 }

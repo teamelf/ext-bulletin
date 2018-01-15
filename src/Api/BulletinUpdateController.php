@@ -48,6 +48,7 @@ class BulletinUpdateController extends AbstractController
             'receivers' => []
         ]);
         $bulletin->update($data);
+        $this->log('info', 'Update bulletin [' . $bulletin->getId() . ']');
         return response();
     }
 }

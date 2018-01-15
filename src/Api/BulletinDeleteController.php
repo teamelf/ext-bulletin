@@ -35,6 +35,7 @@ class BulletinDeleteController extends AbstractController
             throw new HttpNotFoundException();
         }
         if ($bulletin->isDraft()) {
+            $this->log('info', 'Delete bulletin [' . $bulletin->getId() . ']');
             $bulletin->delete(true);
         } else {
             throw new HttpForbiddenException();

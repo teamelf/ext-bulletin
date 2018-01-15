@@ -31,6 +31,7 @@ class BulletinCreateController extends AbstractController
             ->title(date('Ymd', time()) . '公告')
             ->content('全体 ' . Config::get('name') . ' 成员:')
             ->save();
+        $this->log('info', 'Create a bulletin [' . $bulletin->getId() . ']');
         return response([
             'id' => $bulletin->getId()
         ]);

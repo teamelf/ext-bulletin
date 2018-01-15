@@ -36,6 +36,7 @@ class BulletinPublishController extends AbstractController
         }
         if ($bulletin->isDraft()) {
             $bulletin->publish();
+            $this->log('info', 'Publish a bulletin [' . $bulletin->getId() . ']');
         } else {
             throw new HttpForbiddenException();
         }
