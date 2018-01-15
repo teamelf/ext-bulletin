@@ -15,8 +15,7 @@
     }
   },
   "require": {
-    "teamelf/core": "^0.3.0",
-    "teamelf/ext-mailer": "^0.1.0"
+    "teamelf/core": "^0.3.0"
   },
   "require-dev": {
     "franzl/studio": "^0.13.0"

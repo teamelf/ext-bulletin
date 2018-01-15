@@ -14,7 +14,7 @@ namespace TeamELF\Ext\Bulletin;
 use TeamELF\Core\Member;
 use TeamELF\Core\Role;
 use TeamELF\Database\AbstractModel;
-use TeamELF\Ext\Mailer\Event\MessageNeedsToBeSent;
+use TeamELF\Event\MessageNeedsToBeSent;
 
 /**
  * @Entity
