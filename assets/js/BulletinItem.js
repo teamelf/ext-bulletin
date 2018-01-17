@@ -265,7 +265,6 @@ export default class extends Page {
             size="large"
             value={this.state.bulletin.title}
             onChange={e => this.handleBulletinChange('title', e.target.value)}
-            onInput={e => console.log(e)}
           />
         </div>
         <div style={{marginBottom: 16}}>

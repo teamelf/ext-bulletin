@@ -1156,9 +1156,6 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                   value: this.state.bulletin.title,
                   onChange: function onChange(e) {
                     return _this9.handleBulletinChange('title', e.target.value);
-                  },
-                  onInput: function onInput(e) {
-                    return console.log(e);
                   }
                 })
               ),
