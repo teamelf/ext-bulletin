@@ -234,15 +234,17 @@ class Bulletin extends AbstractModel
             $bulletin = (new BulletinFeedback([
                 'bulletin' => $this,
                 'receiver' => $member
-            ]))->save();
+            ]));
             app()->dispatch(new MessageNeedsToBeSent(
-                $member->getEmail(),
+                $member,
                 $this->getTitle(),
                 '有一条关于您的新通知 [ ' . $this->getTitle() . ' ]' . "\n"
                 . $this->getAbstract() . "\n\n"
                 . '详情请登录系统查阅' . "\n"
                 . env('BASE_URL') . '/bulletin/' . $this->getId() . '/view?token=' . $bulletin->getId()
             ));
+            // make sure the mail sent out, then save to db
+            $bulletin->save();
         }
         $this->draft(false)->save();
         return $this;
