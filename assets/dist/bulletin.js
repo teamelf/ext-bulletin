@@ -1743,7 +1743,7 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
                 style: { textAlign: 'right' }
               },
               '\u53D1\u5E03\u4E8E\uFF1A',
-              moment.unix(this.props.updatedAt).format('YYYY-MM-DD H:m:s')
+              moment.unix(this.props.updatedAt).format('YYYY-MM-DD HH:mm:ss')
             ), React.createElement(
               'div',
               { style: { textAlign: 'left', marginTop: 30 } },

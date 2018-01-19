@@ -77,7 +77,7 @@ export default class extends SimpleLayout {
       />,
       <div
         style={{textAlign: 'right'}}
-      >发布于：{moment.unix(this.props.updatedAt).format('YYYY-MM-DD H:m:s')}</div>,
+      >发布于：{moment.unix(this.props.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>,
       <div style={{textAlign: 'left', marginTop: 30}}>{this.renderOptionChoice()}</div>
     ];
   }
