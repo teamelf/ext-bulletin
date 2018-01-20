@@ -1,7 +1,0 @@
-{
-  "name": "teamelf-ext-bulletin",
-  "private": true,
-  "dependencies": {
-    "marked": "^0.3.9"
-  }
-}

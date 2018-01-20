@@ -44,7 +44,6 @@ class BulletinViewController extends ViewController
     {
         parent::addAssets();
         $this->assets
-            ->addCss(__DIR__ . '/../../assets/dist/bulletin.css')
             ->addJs(__DIR__ . '/../../assets/dist/bulletin.js')
             ->entry('teamelf/bulletin/view');
     }

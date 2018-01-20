@@ -10,9 +10,6 @@
 const gulp = require('teamelf-gulp');
 
 gulp({
-  files: [
-    './bower_components/marked/marked.min.js'
-  ],
   modules: {
     'teamelf/bulletin': './js/**/*.js'
   },
