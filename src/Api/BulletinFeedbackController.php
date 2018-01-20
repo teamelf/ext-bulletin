@@ -20,6 +20,8 @@ use TeamELF\Http\AbstractController;
 
 class BulletinFeedbackController extends AbstractController
 {
+    protected $needLogin = false;
+
     /**
      * handle the request
      *
