@@ -8,7 +8,6 @@
  */
 
 import extend from 'teamelf/common/extend';
-import 'teamelf/bulletin/markdown-settings';
 import Bulletin from 'teamelf/bulletin/Bulletin';
 import App from 'teamelf/App';
 import { SideNav } from 'teamelf/layout/SideNav';

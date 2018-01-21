@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import 'teamelf/bulletin/markdown-settings';
 import BulletinView from 'teamelf/bulletin/BulletinView';
 
 const target = document.getElementById('react-render-target-bulletin-view');

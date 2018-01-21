@@ -8,7 +8,7 @@
  */
 
 const { Card, Divider } = antd;
-import Markdown from 'teamelf/components/Markdown';
+import Editor from 'teamelf/components/Editor';
 
 export default class extends React.Component {
   render () {
@@ -16,7 +16,7 @@ export default class extends React.Component {
       <Card>
         <h2>{this.props.title}</h2>
         <Divider/>
-        <Markdown content={this.props.content}/>
+        <Editor readonly value={this.props.content}/>
       </Card>
     );
   }

@@ -1283,10 +1283,10 @@ System.register('teamelf/bulletin/BulletinList', ['teamelf/layout/Page', 'teamel
 });
 'use strict';
 
-System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Markdown'], function (_export, _context) {
+System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Editor'], function (_export, _context) {
   "use strict";
 
-  var Markdown, _createClass, _antd, Card, Divider, _class;
+  var Editor, _createClass, _antd, Card, Divider, _class;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -1319,8 +1319,8 @@ System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Markdow
   }
 
   return {
-    setters: [function (_teamelfComponentsMarkdown) {
-      Markdown = _teamelfComponentsMarkdown.default;
+    setters: [function (_teamelfComponentsEditor) {
+      Editor = _teamelfComponentsEditor.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -1366,7 +1366,7 @@ System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Markdow
                 this.props.title
               ),
               React.createElement(Divider, null),
-              React.createElement(Markdown, { content: this.props.content })
+              React.createElement(Editor, { readonly: true, value: this.props.content })
             );
           }
         }]);
@@ -1659,14 +1659,14 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
 });
 'use strict';
 
-System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bulletin/markdown-settings', 'teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
+System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bulletin/Bulletin', 'teamelf/App', 'teamelf/layout/SideNav', 'teamelf/Permission'], function (_export, _context) {
   "use strict";
 
   var extend, Bulletin, App, SideNav, Permission;
   return {
     setters: [function (_teamelfCommonExtend) {
       extend = _teamelfCommonExtend.default;
-    }, function (_teamelfBulletinMarkdownSettings) {}, function (_teamelfBulletinBulletin) {
+    }, function (_teamelfBulletinBulletin) {
       Bulletin = _teamelfBulletinBulletin.default;
     }, function (_teamelfApp) {
       App = _teamelfApp.default;
@@ -1676,18 +1676,17 @@ System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bull
       Permission = _teamelfPermission.default;
     }],
     execute: function () {
-      /**
-       * This file is part of TeamELF
-       *
-       * (c) GuessEver <guessever@gmail.com>
-       *
-       * For the full copyright and license information, please view the LICENSE
-       * file that was distributed with this source code.
-       */
 
       extend(App.prototype, 'routes', function (routes) {
         routes.push.apply(routes, [{ path: '/bulletin', component: Bulletin }]);
-      });
+      }); /**
+           * This file is part of TeamELF
+           *
+           * (c) GuessEver <guessever@gmail.com>
+           *
+           * For the full copyright and license information, please view the LICENSE
+           * file that was distributed with this source code.
+           */
 
       extend(SideNav.prototype, 'navigations', function (navigations) {
         if (can('bulletin.*')) {
@@ -1706,13 +1705,13 @@ System.register('teamelf/bulletin/main', ['teamelf/common/extend', 'teamelf/bull
 });
 'use strict';
 
-System.register('teamelf/bulletin/view', ['teamelf/bulletin/markdown-settings', 'teamelf/bulletin/BulletinView'], function (_export, _context) {
+System.register('teamelf/bulletin/view', ['teamelf/bulletin/BulletinView'], function (_export, _context) {
   "use strict";
 
   var BulletinView, _extends, target;
 
   return {
-    setters: [function (_teamelfBulletinMarkdownSettings) {}, function (_teamelfBulletinBulletinView) {
+    setters: [function (_teamelfBulletinBulletinView) {
       BulletinView = _teamelfBulletinBulletinView.default;
     }],
     execute: function () {
