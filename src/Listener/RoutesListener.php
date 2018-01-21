@@ -42,7 +42,6 @@ class RoutesListener
             ->get('bulletin-item', '/{id}', BulletinItemController::class)
             ->put('bulletin-update', '/{id}', BulletinUpdateController::class)
             ->put('bulletin-publish', '/{id}/publish', BulletinPublishController::class)
-            ->post('bulletin-attachment-upload', '/{id}/attachment', BulletinAttachmentUploadController::class)
             ->delete('bulletin-delete', '/{id}', BulletinDeleteController::class)
             ->get('bulletin-feedback-list', '/{id}/feedback', BulletinFeedbackListController::class)
             ->put('bulletin-feedback', '/feedback/{id}', BulletinFeedbackController::class);

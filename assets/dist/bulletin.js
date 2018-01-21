@@ -487,10 +487,10 @@ System.register("teamelf/bulletin/BulletinFeedback", [], function (_export, _con
 });
 'use strict';
 
-System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamelf/bulletin/BulletinProcess', 'teamelf/bulletin/BulletinPreview', 'teamelf/bulletin/BulletinFeedback'], function (_export, _context) {
+System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamelf/bulletin/BulletinProcess', 'teamelf/bulletin/BulletinPreview', 'teamelf/bulletin/BulletinFeedback', 'teamelf/components/Editor'], function (_export, _context) {
   "use strict";
 
-  var Page, BulletinProcess, BulletinPreview, BulletinFeedback, _typeof, _createClass, _antd, Row, Col, Button, Input, Checkbox, TreeSelect, Icon, _class;
+  var Page, BulletinProcess, BulletinPreview, BulletinFeedback, Editor, _createClass, _antd, Row, Col, Button, Input, Checkbox, TreeSelect, Icon, _class;
 
   function _asyncToGenerator(fn) {
     return function () {
@@ -560,14 +560,10 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
       BulletinPreview = _teamelfBulletinBulletinPreview.default;
     }, function (_teamelfBulletinBulletinFeedback) {
       BulletinFeedback = _teamelfBulletinBulletinFeedback.default;
+    }, function (_teamelfComponentsEditor) {
+      Editor = _teamelfComponentsEditor.default;
     }],
     execute: function () {
-      _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-      } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-
       _createClass = function () {
         function defineProperties(target, props) {
           for (var i = 0; i < props.length; i++) {
@@ -1061,83 +1057,9 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
             this.setState({ bulletin: bulletin, changed: true });
           }
         }, {
-          key: 'handleTextAreaPaste',
-          value: function handleTextAreaPaste(e) {
-            var _this8 = this;
-
-            e.preventDefault();
-            var selectionStart = e.target.selectionStart;
-            var selectionEnd = e.target.selectionEnd;
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-              for (var _iterator2 = e.clipboardData.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var item = _step2.value;
-
-                switch (item.kind) {
-                  case 'string':
-                    item.getAsString(function (str) {
-                      var text = _this8.state.bulletin.content;
-                      text = text.substring(0, selectionStart) + str + text.substring(selectionEnd);
-                      _this8.handleBulletinChange('content', text);
-                    });
-                    break;
-                  case 'file':
-                    console.log(item.type);
-                    if (item.type.match(/^image\//)) {
-                      var _ret2 = function () {
-                        var img = item.getAsFile();
-                        if (!img) return {
-                            v: void 0
-                          };
-
-                        var text = _this8.state.bulletin.content;
-                        var uid = CryptoJS.SHA1(+new Date() + ',' + parseInt(Math.random() * 100000000)).toString();
-                        var placeholder = '![img \u4E0A\u4F20\u4E2D...](' + uid + ')';
-                        text = text.substring(0, selectionStart) + placeholder + text.substring(selectionEnd);
-                        _this8.handleBulletinChange('content', text);
-
-                        var id = _this8.props.match.params.id;
-                        var formData = new FormData();
-                        formData.append('attachment', img);
-                        axios.post('bulletin/' + id + '/attachment', formData).then(function (r) {
-                          var text = _this8.state.bulletin.content;
-                          var mark = '![img](' + r.data.url + ')';
-                          text = text.replace(placeholder, mark);
-                          _this8.handleBulletinChange('content', text);
-                        }).catch(function (e) {
-                          var text = _this8.state.bulletin.content;
-                          text = text.replace(placeholder, '');
-                          _this8.handleBulletinChange('content', text);
-                        });
-                      }();
-
-                      if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
-                    }
-                    break;
-                }
-              }
-            } catch (err) {
-              _didIteratorError2 = true;
-              _iteratorError2 = err;
-            } finally {
-              try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
-                }
-              } finally {
-                if (_didIteratorError2) {
-                  throw _iteratorError2;
-                }
-              }
-            }
-          }
-        }, {
           key: 'renderEditor',
           value: function renderEditor() {
-            var _this9 = this;
+            var _this8 = this;
 
             return React.createElement(
               'div',
@@ -1149,7 +1071,7 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                   size: 'large',
                   value: this.state.bulletin.title,
                   onChange: function onChange(e) {
-                    return _this9.handleBulletinChange('title', e.target.value);
+                    return _this8.handleBulletinChange('title', e.target.value);
                   }
                 })
               ),
@@ -1164,33 +1086,17 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
                   treeData: this.state.mentionList,
                   value: this.state.bulletin.receivers,
                   onChange: function onChange(e) {
-                    return _this9.handleBulletinChange('receivers', e);
+                    return _this8.handleBulletinChange('receivers', e);
                   },
                   allowClear: true
                 })
               ),
-              React.createElement(
-                'div',
-                { style: { marginBottom: 16 } },
-                React.createElement(
-                  'div',
-                  { align: 'right' },
-                  React.createElement(
-                    'small',
-                    null,
-                    '\u53EF\u7C98\u8D34\u4E0A\u4F20\u56FE\u7247\uFF0C\u6682\u4E0D\u652F\u6301\u5176\u4ED6\u9644\u4EF6\u4E0A\u4F20'
-                  )
-                ),
-                React.createElement(Input.TextArea, {
-                  size: 'large',
-                  autosize: { minRows: 10, maxRows: 999999 },
-                  value: this.state.bulletin.content,
-                  onChange: function onChange(e) {
-                    return _this9.handleBulletinChange('content', e.target.value);
-                  },
-                  onPaste: this.handleTextAreaPaste.bind(this)
-                })
-              )
+              React.createElement(Editor, {
+                value: this.state.bulletin.content,
+                onChange: function onChange(e) {
+                  return _this8.handleBulletinChange('content', e);
+                }
+              })
             );
           }
         }, {
@@ -1375,12 +1281,12 @@ System.register('teamelf/bulletin/BulletinList', ['teamelf/layout/Page', 'teamel
     }
   };
 });
-"use strict";
+'use strict';
 
-System.register("teamelf/bulletin/BulletinPreview", [], function (_export, _context) {
+System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Markdown'], function (_export, _context) {
   "use strict";
 
-  var _createClass, _antd, Card, Divider, _class;
+  var Markdown, _createClass, _antd, Card, Divider, _class;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -1413,7 +1319,9 @@ System.register("teamelf/bulletin/BulletinPreview", [], function (_export, _cont
   }
 
   return {
-    setters: [],
+    setters: [function (_teamelfComponentsMarkdown) {
+      Markdown = _teamelfComponentsMarkdown.default;
+    }],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -1447,21 +1355,18 @@ System.register("teamelf/bulletin/BulletinPreview", [], function (_export, _cont
         }
 
         _createClass(_class, [{
-          key: "render",
+          key: 'render',
           value: function render() {
             return React.createElement(
               Card,
               null,
               React.createElement(
-                "h2",
+                'h2',
                 null,
                 this.props.title
               ),
               React.createElement(Divider, null),
-              React.createElement("div", {
-                className: "markdown",
-                dangerouslySetInnerHTML: { __html: marked(this.props.content) }
-              })
+              React.createElement(Markdown, { content: this.props.content })
             );
           }
         }]);
@@ -1469,7 +1374,7 @@ System.register("teamelf/bulletin/BulletinPreview", [], function (_export, _cont
         return _class;
       }(React.Component);
 
-      _export("default", _class);
+      _export('default', _class);
     }
   };
 });
@@ -1727,10 +1632,9 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
               'h1',
               null,
               this.props.title
-            ), React.createElement('div', {
+            ), React.createElement(Markdown, {
               style: { textAlign: 'left' },
-              className: 'markdown',
-              dangerouslySetInnerHTML: { __html: marked(this.props.content) }
+              content: this.props.content
             }), React.createElement(
               'div',
               {

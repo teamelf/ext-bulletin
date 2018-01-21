@@ -8,6 +8,7 @@
  */
 
 const { Card, Divider } = antd;
+import Markdown from 'teamelf/components/Markdown';
 
 export default class extends React.Component {
   render () {
@@ -15,10 +16,7 @@ export default class extends React.Component {
       <Card>
         <h2>{this.props.title}</h2>
         <Divider/>
-        <div
-          className="markdown"
-          dangerouslySetInnerHTML={{__html: marked(this.props.content)}}
-        />
+        <Markdown content={this.props.content}/>
       </Card>
     );
   }

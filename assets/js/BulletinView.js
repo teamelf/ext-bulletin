@@ -70,10 +70,9 @@ export default class extends SimpleLayout {
   view () {
     return [
       <h1>{this.props.title}</h1>,
-      <div
+      <Markdown
         style={{textAlign: 'left'}}
-        className="markdown"
-        dangerouslySetInnerHTML={{__html: marked(this.props.content)}}
+        content={this.props.content}
       />,
       <div
         style={{textAlign: 'right'}}
