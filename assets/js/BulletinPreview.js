@@ -16,7 +16,7 @@ export default class extends React.Component {
       <Card>
         <h2>{this.props.title}</h2>
         <Divider/>
-        <Editor readonly value={this.props.content}/>
+        <Editor preview value={this.props.content}/>
       </Card>
     );
   }

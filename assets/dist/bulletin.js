@@ -1366,7 +1366,7 @@ System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Editor'
                 this.props.title
               ),
               React.createElement(Divider, null),
-              React.createElement(Editor, { readonly: true, value: this.props.content })
+              React.createElement(Editor, { preview: true, value: this.props.content })
             );
           }
         }]);
