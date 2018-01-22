@@ -487,7 +487,7 @@ System.register("teamelf/bulletin/BulletinFeedback", [], function (_export, _con
 });
 'use strict';
 
-System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamelf/bulletin/BulletinProcess', 'teamelf/bulletin/BulletinPreview', 'teamelf/bulletin/BulletinFeedback', 'teamelf/components/Editor'], function (_export, _context) {
+System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamelf/bulletin/BulletinProcess', 'teamelf/bulletin/BulletinPreview', 'teamelf/bulletin/BulletinFeedback', 'teamelf/common/Editor'], function (_export, _context) {
   "use strict";
 
   var Page, BulletinProcess, BulletinPreview, BulletinFeedback, Editor, _createClass, _antd, Row, Col, Button, Input, Checkbox, TreeSelect, Icon, _class;
@@ -560,8 +560,8 @@ System.register('teamelf/bulletin/BulletinItem', ['teamelf/layout/Page', 'teamel
       BulletinPreview = _teamelfBulletinBulletinPreview.default;
     }, function (_teamelfBulletinBulletinFeedback) {
       BulletinFeedback = _teamelfBulletinBulletinFeedback.default;
-    }, function (_teamelfComponentsEditor) {
-      Editor = _teamelfComponentsEditor.default;
+    }, function (_teamelfCommonEditor) {
+      Editor = _teamelfCommonEditor.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -1283,7 +1283,7 @@ System.register('teamelf/bulletin/BulletinList', ['teamelf/layout/Page', 'teamel
 });
 'use strict';
 
-System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Editor'], function (_export, _context) {
+System.register('teamelf/bulletin/BulletinPreview', ['teamelf/common/Editor'], function (_export, _context) {
   "use strict";
 
   var Editor, _createClass, _antd, Card, Divider, _class;
@@ -1319,8 +1319,8 @@ System.register('teamelf/bulletin/BulletinPreview', ['teamelf/components/Editor'
   }
 
   return {
-    setters: [function (_teamelfComponentsEditor) {
-      Editor = _teamelfComponentsEditor.default;
+    setters: [function (_teamelfCommonEditor) {
+      Editor = _teamelfCommonEditor.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -1480,10 +1480,10 @@ System.register('teamelf/bulletin/BulletinProcess', [], function (_export, _cont
 });
 'use strict';
 
-System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout'], function (_export, _context) {
+System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout', 'teamelf/common/Editor'], function (_export, _context) {
   "use strict";
 
-  var SimpleLayout, _createClass, _antd, Button, Row, Col, Input, Alert, _class;
+  var SimpleLayout, Editor, _createClass, _antd, Button, Row, Col, Input, Alert, _class;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -1518,6 +1518,8 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
   return {
     setters: [function (_teamelfCommonSimpleLayout) {
       SimpleLayout = _teamelfCommonSimpleLayout.default;
+    }, function (_teamelfCommonEditor) {
+      Editor = _teamelfCommonEditor.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -1632,9 +1634,9 @@ System.register('teamelf/bulletin/BulletinView', ['teamelf/common/SimpleLayout']
               'h1',
               null,
               this.props.title
-            ), React.createElement(Markdown, {
+            ), React.createElement(Editor, {
               style: { textAlign: 'left' },
-              content: this.props.content
+              preview: true, value: this.props.content
             }), React.createElement(
               'div',
               {

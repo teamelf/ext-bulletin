@@ -9,6 +9,7 @@
 
 import SimpleLayout from 'teamelf/common/SimpleLayout';
 const { Button, Row, Col, Input, Alert } = antd;
+import Editor from 'teamelf/common/Editor';
 
 export default class extends SimpleLayout {
   constructor (props) {
@@ -70,9 +71,9 @@ export default class extends SimpleLayout {
   view () {
     return [
       <h1>{this.props.title}</h1>,
-      <Markdown
+      <Editor
         style={{textAlign: 'left'}}
-        content={this.props.content}
+        preview value={this.props.content}
       />,
       <div
         style={{textAlign: 'right'}}

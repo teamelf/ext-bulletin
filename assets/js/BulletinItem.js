@@ -12,7 +12,7 @@ const { Row, Col, Button, Input, Checkbox, TreeSelect, Icon } = antd;
 import BulletinProcess from 'teamelf/bulletin/BulletinProcess';
 import BulletinPreview from 'teamelf/bulletin/BulletinPreview';
 import BulletinFeedback from 'teamelf/bulletin/BulletinFeedback';
-import Editor from 'teamelf/components/Editor';
+import Editor from 'teamelf/common/Editor';
 
 export default class extends Page {
   constructor (props) {

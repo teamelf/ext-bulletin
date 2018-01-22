@@ -8,7 +8,7 @@
  */
 
 const { Card, Divider } = antd;
-import Editor from 'teamelf/components/Editor';
+import Editor from 'teamelf/common/Editor';
 
 export default class extends React.Component {
   render () {
